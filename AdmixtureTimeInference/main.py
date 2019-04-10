@@ -1,3 +1,8 @@
+"""This is the main module for AdmixtureTimeInference project
+
+This module contains two functions: get_tract_lengths finds homozygosity tracts in simulated data and outputs tract lengths, while get_mle inference time since admixture from those tract lengths
+"""
+
 import file_handling as flh
 import parsers as prs
 import numpy as np 
@@ -5,10 +10,11 @@ import pandas as pd
 import pickle
 import argparse
 
-def get_tract_lengths(input_file, gens, admixture_type, sims=[0,1000], outfile=None):
+
+
+def get_tract_lengths(input_file, gens, admixture_type, sims=[0,100]):
     '''
     Takes in an input bp file and returns a list of lists ( one for each simulation in bp file ) continaing tract (homozygous tracts) lengths  based on number of generations and admixture type. sims allows you to choose range of samples to return
-    Optionally provide outfile (.pickle) to pickle the results
     '''
 
     #Check if admixture_type is compatible with pedigree structure ( lenght of admixture_type list should be equal to number of founders)
@@ -30,8 +36,8 @@ def get_tract_lengths(input_file, gens, admixture_type, sims=[0,1000], outfile=N
         if i%2 != 0:
             continue
 
-        print(i, len(bp_list_gens)) 
-        #Ancestry parse the input strings corresponding to the current simulation. If simulation is weird and doesn't contain the right number of unique haplotypes, ancestry_parse returns an empty list and we continue
+        #Ancestry parse the input strings corresponding to the current simulation. If simulation is weird and 
+        #doesn't contain the right number of unique haplotypes, ancestry_parse returns an empty list and we continue
         focal_ancestry_bp = prs.ancestryParse([bp_list_gens[i],bp_list_gens[i+1]],admixture_type)
         if not focal_ancestry_bp:
             continue
@@ -50,18 +56,15 @@ def get_tract_lengths(input_file, gens, admixture_type, sims=[0,1000], outfile=N
         tract_lengths_B = [dicT['length'] for dicT in focal_ancestry_homoz_tracts[1]] 
         tract_lengths_list_B.append(tract_lengths_B)
     
-    #if outfile is provided, pickle the lists for later use
-    if outfile is not None:
-        with open(outfile,"wb") as f:
-            pickle.dump((tract_lengths_list_B,tract_lengths_list_B), f)
-
+    
     #return lists 
     return(tract_lengths_list_A, tract_lengths_list_B)
 
 
 def get_mle(input_list):
     '''
-    Takes in list of lists of tract lenghts ( one for each simulation in bp file ) and returns mle estimate of admixture time for each sample as a list 
+    Takes in list of lists of tract lenghts ( one for each simulation in bp file ) and 
+    returns mle estimate of admixture time for each sample as a list 
     '''
     mle_mean_list = []
 
@@ -72,6 +75,33 @@ def get_mle(input_list):
     return(mle_mean_list)
 
 
+ 
 if __name__ == "__main__":
-    
 
+    # initiate the parser
+    parser = argparse.ArgumentParser()
+
+    # add long and short argument
+    parser.add_argument("--inputfile", "-i",required=True, help="set input file (must be a bp file)")
+    parser.add_argument("--generations", "-g", required=True,help="number of generations ago that admixture occured - ensure compatibility with bp file")
+    parser.add_argument("--admixture", "-a", required=True,help="admixture type as string: e.g 'ABAB'")
+    parser.add_argument("--nsims","-s", nargs='+', required=True,help="range of simulations for which to store results: e.g 0 100")
+    parser.add_argument("--outfile", "-o", required=True,help="e.g outfile.pkl")
+
+    # read arguments from the command line
+    args = parser.parse_args()
+
+    #print(args.inputfile, args.generations, args.admixture[0],type(args.admixture[1]), args.nsims[0], args.nsims[1])
+     
+    #~~~~~~~~ Body ~~~~~~~~~~~~~~~~~ #
+    #Pre-processing user inputs before calling get_tract_lengths
+
+    args.generations = int(args.generations)
+    args.admixture = list(args.admixture)
+    args.nsims = [int(x) for x in args.nsims]
+
+    res = get_tract_lengths(args.inputfile, args.generations, args.admixture, args.nsims)
+    
+    #pickle the lists for later use
+    with open(args.outfile,"wb") as f:
+        pickle.dump(res, f)

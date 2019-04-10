@@ -63,7 +63,7 @@ def haplo_parse(input_string , map_df=False):
             
             #Get df correpsonding to current chromosome 
             chrom_df = map_df[map_df['#chr'] == int(chrom)]
-            chrom_df['sex_averaged'] = (chrom_df.male_cM + chrom_df.female_cM)/2
+            chrom_df.loc[:,'sex_averaged'] = (chrom_df.male_cM + chrom_df.female_cM)/2
 
             #convert chrom_start into genetic position
             chrom_start_genetic = find_genetic_position(chrom_df, chrom_start)
