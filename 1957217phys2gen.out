@@ -1,0 +1,5 @@
+User sna53 attempting to mount cbsubscb09:/storage  on cbsubscb09
+mounting nfs4 cbsubscb09:/storage on /fs/cbsubscb09/storage (cbsubscb09)
+server is mounting on itself: creating a symlnik instead
+/bin/rmdir: failed to remove '/fs/cbsubscb09/storage': Not a directory
+ln: failed to create symbolic link '/fs/cbsubscb09/storage/storage': File exists

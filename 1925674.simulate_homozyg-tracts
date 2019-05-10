@@ -1,6 +1,0 @@
-User sna53 attempting to mount cbsubscb09:/storage  on cbsubscb13
-mounting nfs4 cbsubscb09:/storage on /fs/cbsubscb09/storage (cbsubscb13)
-mount.nfs4: /fs/cbsubscb09/storage is busy or already mounted
-running simulations on batch 1 with batch size = 100 for admixture time = 2
-Batch range : 0 , 100
-admixture type : ABAB
