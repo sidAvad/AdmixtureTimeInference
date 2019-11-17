@@ -176,3 +176,87 @@ def phys2gen_string(bpstring,mapfile_list):
     return(bpstring[:-1])
 
 
+def plot_row(dataframe, targets, t, typ, mcountCollabels, compareList=[], mode='mle'):
+    '''
+    Plots one row of targets side-by-side with an optional compareList given time and admxiture type. Also requires a list of m's to correctmle for t ( finite chromosome correction )
+    '''
+
+#{{{ 
+    rowsize = len(targets) 
+    f,a = plt.subplots(1,rowsize,figsize=(10,3))
+    mlist = []
+    for idx,ax in enumerate(a):
+
+        if mode == 'mle':
+            plot_list = get_mle_list(dataframe,targets[idx],t,typ,mcountCollabels[idx])
+        else:
+            column_to_plot = dataframe[targets[idx]][dataframe.admixtype == typ]
+            tract_lengths_list = list(column_to_plot)
+            plot_list = [x for y in tract_lengths_list for x in y] #putting together all simulations
+
+        if all(np.isnan(plot_list)):
+            ax.plot()
+        else:
+            ax.hist([plot_list,compareList], bins='auto', alpha=0.7, rwidth=0.85)
+            ax.set_title(targets[idx])
+        
+    plt.suptitle('typ={}'.format(typ),x=-0.1,y=0.5)
+    plt.tight_layout()
+#}}}
+    return()
+def plot_row(dataframe, targets, t, typ, mcountCollabels, compareList=[], mode='mle'):
+    '''
+    Plots one row of targets side-by-side with an optional compareList given time and admxiture type. Also requires a list of m's to correctmle for t ( finite chromosome correction )
+    '''
+
+#{{{ 
+    rowsize = len(targets) 
+    f,a = plt.subplots(1,rowsize,figsize=(10,3))
+    mlist = []
+    for idx,ax in enumerate(a):
+
+        if mode == 'mle':
+            plot_list = get_mle_list(dataframe,targets[idx],t,typ,mcountCollabels[idx])
+        else:
+            column_to_plot = dataframe[targets[idx]][dataframe.admixtype == typ]
+            tract_lengths_list = list(column_to_plot)
+            plot_list = [x for y in tract_lengths_list for x in y] #putting together all simulations
+
+        if all(np.isnan(plot_list)):
+            ax.plot()
+        else:
+            ax.hist([plot_list,compareList], bins='auto', alpha=0.7, rwidth=0.85)
+            ax.set_title(targets[idx])
+        
+    plt.suptitle('typ={}'.format(typ),x=-0.1,y=0.5)
+    plt.tight_layout()
+#}}}
+    return()
+def plot_row(dataframe, targets, t, typ, mcountCollabels, compareList=[], mode='mle'):
+    '''
+    Plots one row of targets side-by-side with an optional compareList given time and admxiture type. Also requires a list of m's to correctmle for t ( finite chromosome correction )
+    '''
+
+#{{{ 
+    rowsize = len(targets) 
+    f,a = plt.subplots(1,rowsize,figsize=(10,3))
+    mlist = []
+    for idx,ax in enumerate(a):
+
+        if mode == 'mle':
+            plot_list = get_mle_list(dataframe,targets[idx],t,typ,mcountCollabels[idx])
+        else:
+            column_to_plot = dataframe[targets[idx]][dataframe.admixtype == typ]
+            tract_lengths_list = list(column_to_plot)
+            plot_list = [x for y in tract_lengths_list for x in y] #putting together all simulations
+
+        if all(np.isnan(plot_list)):
+            ax.plot()
+        else:
+            ax.hist([plot_list,compareList], bins='auto', alpha=0.7, rwidth=0.85)
+            ax.set_title(targets[idx])
+        
+    plt.suptitle('typ={}'.format(typ),x=-0.1,y=0.5)
+    plt.tight_layout()
+#}}}
+    return()

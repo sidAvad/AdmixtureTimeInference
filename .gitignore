@@ -1,7 +1,5 @@
 Output/
 Results/
-AdmixtureTimeInference/*.pkl
-AdmixtureTimeInference/Session.vim
-scripts/
 *.swp
 Resources/
+trash/
